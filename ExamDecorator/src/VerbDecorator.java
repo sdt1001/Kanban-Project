@@ -1,5 +1,4 @@
 import java.io.FileNotFoundException;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,32 +11,28 @@ public class VerbDecorator extends java.io.BufferedReader {
 	}
 	
 	public String readLine() throws IOException {
-		FileReader fileReader = new FileReader(readLine());
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		List<String> verbList = new ArrayList<String>();
-        String line = null;
-        while ((line = bufferedReader.readLine()) != null) {
-            verbList.add("<<VERB>>");
-            verbList.set(0, "run");
-            verbList.set(0, "jump");
-            verbList.set(0, "fly");
-            verbList.set(0, "trip");
-            verbList.set(0, "fall");
-            verbList.set(0, "walk");
-            verbList.set(0, "talk");
-            verbList.set(0, "sleep");
-            verbList.set(0, "shake");
-            verbList.set(0, "swim");
-            
+		verbList.add("run");
+		verbList.add("jump");
+		verbList.add("fly");
+		verbList.add("trip");
+		verbList.add("fall");
+		verbList.add("walk");
+		verbList.add("talk");
+		verbList.add("sleep");
+		verbList.add("shake");
+		verbList.add("swim");
+        
+        String line = super.readLine();
+        
+        int i = 0;
+        while (line != null && line.contains("<<VERB>>")) {
+        	String replacement = verbList.get(i % verbList.size());
+        	line = line.replaceFirst("\\<\\<VERB\\>\\>", replacement);
+        	i++;
         }
-              
-        System.out.println(verbList);
-        bufferedReader.close();
+        
         return line;
-		
-	}
-	
-	
-	
+	}	
 }
 
